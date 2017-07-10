@@ -18,9 +18,13 @@
     <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css"/>
     <!-- leaflet js file -->
     <script src= "../node_modules/leaflet/dist/leaflet.js"></script>
+    <!-- mapbox file -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
 
 
   </head>
+
 
   <body>
 
@@ -63,7 +67,6 @@
         <div id="mapid"> </div>
 
 
-
       </div>
 
     </div><!-- /.container -->
@@ -73,13 +76,52 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="../bootstrap4/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../bootstrap4/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
     <script type="text/javascript">
-    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
+
+
+
+
+    </script>
+
+
+    <script type="text/javascript">
+    //When the Window finishes loading...
+  $(window).on ('load', function () {
+
+    var mymap = L.map('mapid').setView([39.8283, -98.5795], 4);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox.streets-satellite',
+    accessToken: 'pk.eyJ1IjoiYXlhbmV6IiwiYSI6ImNqNHloOXAweTFveWwzM3A4M3FkOWUzM2UifQ.GfClkT4QxlFDC_xiI37x3Q'
+    }).addTo(mymap);
+    //alert("blah");
+
+      //Carry out an Ajax request.
+      $.ajax({
+          url: 'samplejson.php',
+          dataType: "json",
+          success:function(data){
+              $.each(data, function(){
+                var marker = L.marker([this.lat, this.long]).addTo(mymap);
+
+                marker.bindPopup("Speed:" +"<br>"+this.speed);
+
+
+
+              });
+          }
+      });
+
+  });
+
 
 
     </script>
