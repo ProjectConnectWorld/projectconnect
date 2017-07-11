@@ -1,12 +1,14 @@
 body {
-  padding-top: 2rem;
+  padding-top: 0rem;
 }
 .starter-template {
-  padding: 3rem 1.5rem;
+  padding: 0rem 0rem;
   text-align: center;
 }
 
 #mapid {
-   height: 85vh;
+   margin: auto;
    width: 100%;
+   height: 120vh;
+   /*width: 100%;*/
  }
