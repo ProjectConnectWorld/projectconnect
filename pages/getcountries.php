@@ -1,7 +1,7 @@
 <?php
 
 function getAllCountries(){
-  require "/../../db.php";
+  require "../../../db.php";
   $arr= array();
   $query = "SELECT DISTINCT(country_code) FROM schools ";
   $result = pg_query($dbconn,$query) or die('Query failed: ' . pg_last_error());

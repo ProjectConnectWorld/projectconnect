@@ -2,6 +2,7 @@
 require "getcountries.php";
 $arr=array();
 
+echo "works";
 $region =$_POST['region'];
 
 if($region=="Africa"){
