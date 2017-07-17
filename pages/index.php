@@ -30,17 +30,25 @@
   <script src= "../node_modules/leaflet-ant-path/dist/leaflet-ant-path.js"></script> -->
   <!-- Font Awesome -->
   <script src="https://use.fontawesome.com/5b36c1571c.js"></script>
-  <style >
-
-  .map {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-  }
+  <script type="text/javascript" src ="../data/contgeo.js"></script>
+  <script type="text/javascript" src ="../data/countrygeo.js"></script>
 
 
-  </style>
+  <script src="https://d3js.org/d3-array.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+
+
+<style >
+
+.map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+
+</style>
 
 
 
@@ -62,7 +70,9 @@ function regionselected(event){
         var option = document.createElement("option");
         option.text = this.countrycode+"-"+this.countryname;
         x.add(option);
+
       });
+      highlight(region);
 
 
     }
@@ -178,8 +188,11 @@ function putIn(latlng){
 
 }
 
-function getColor(num){
+function getColor(num,range){
   var num = parseInt(num);
+  if(range){
+    return "#FF69b4"
+  }
   if( num <50){
     return "#14D812"
   }
@@ -247,9 +260,23 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: 'pk.eyJ1IjoiYXlhbmV6IiwiYSI6ImNqNHloOXAweTFveWwzM3A4M3FkOWUzM2UifQ.GfClkT4QxlFDC_xiI37x3Q'
 }).addTo(mymap);
 
+function highlight(region){
+  name=region.replace(/\s/g,'').toLowerCase();
+  L.geoJson(contdata,{
+    filter: function (geoJsonFeature) {
+      if(geoJsonFeature.properties.continent===name){
+        return true;
+      }else{
+        return false;
+      }
+    }
+  }).addTo(mymap);
+
+}
+
+
 
 function plotcountry(country){
-
   var tot_points=0;
   var tot_lat=0;
   var tot_lng=0;
@@ -260,8 +287,19 @@ function plotcountry(country){
     data:{'country':country},
     success:function(data){
       var dnewdata= [];
+      countryns=country.replace(/\s/g,'').toLowerCase();
+      countryns=countryns.split('-')[1];
+      for(i=0; i<countrygeo.features.length; i++){
+        if(countrygeo.features[i].properties.name.replace(/\s/g,'').toLowerCase()==countryns){
+          countrygeoj=countrygeo.features[i];
+        }
+      }
+
       $.each(data, function(){
-        if (this.lat != 'null' && this.lng !='null'){
+        p_lat= parseFloat(this.lat);
+        p_lng= parseFloat(this.lng);
+
+        if (this.lat != 'null' && this.lng !='null' && !isNaN(p_lat) && !isNaN(p_lng) && between(p_lat, -90, 90) && between(p_lng, -180, 180)){
           tot_points+=1;
           tot_lat+= parseFloat(this.lat);
           tot_lng+= parseFloat(this.lng);
@@ -271,7 +309,9 @@ function plotcountry(country){
           school.lat = parseFloat(this.lat);
           school.lng = parseFloat(this.lng);
           school.num = parseInt(this.num);
+          school.range= !d3.geoContains(countrygeoj, [this.lng,this.lat]);
           dnewdata.push(school);
+
 
         }
 
@@ -281,18 +321,23 @@ function plotcountry(country){
 
     L.geoJSON(geoj, {
       pointToLayer: function(feature, latlng) {
-        return new L.CircleMarker(latlng, {stroke: false, radius: 5, fillOpacity: 0.65, color: getColor(feature.properties.num)});
+        return new L.CircleMarker(latlng, {stroke: false, radius: 5, fillOpacity: 0.65, color: getColor(feature.properties.num,feature.properties.range)});
       }
 
     }).bindPopup(function (layer) {
       return layer.feature.properties.name;
     }).addTo(mymap);
 
-
+    //alert(tot_lat + "   " + tot_lng +"  "+ tot_points);
+    //alert( tot_lat/tot_points+ "  " +tot_lng/tot_points)
     mymap.setView([tot_lat/tot_points, tot_lng/tot_points]);
   }
 });
 
+}
+
+function between(x, min, max) {
+  return x >= min && x <= max;
 }
 
 
