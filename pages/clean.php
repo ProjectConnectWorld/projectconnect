@@ -31,7 +31,11 @@
   <!-- Font Awesome -->
   <script src="https://use.fontawesome.com/5b36c1571c.js"></script>
   <script type="text/javascript" src ="../data/contgeo.js"></script>
+  <script type="text/javascript" src ="../data/countrygeo.js"></script>
 
+
+  <script src="https://d3js.org/d3-array.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo.v1.min.js"></script>
 
 
 <style >
@@ -184,9 +188,11 @@ function putIn(latlng){
 
 }
 
-function getColor(num){
+function getColor(num,range){
   var num = parseInt(num);
-
+  if(range){
+    return "#FF69b4"
+  }
   if( num <50){
     return "#14D812"
   }
@@ -281,6 +287,13 @@ function plotcountry(country){
     data:{'country':country},
     success:function(data){
       var dnewdata= [];
+      countryns=country.replace(/\s/g,'').toLowerCase();
+      countryns=countryns.split('-')[1];
+      for(i=0; i<countrygeo.features.length; i++){
+        if(countrygeo.features[i].properties.name.replace(/\s/g,'').toLowerCase()==countryns){
+          countrygeoj=countrygeo.features[i];
+        }
+      }
 
       $.each(data, function(){
         p_lat= parseFloat(this.lat);
@@ -296,6 +309,7 @@ function plotcountry(country){
           school.lat = parseFloat(this.lat);
           school.lng = parseFloat(this.lng);
           school.num = parseInt(this.num);
+          school.range= !d3.geoContains(countrygeoj, [this.lng,this.lat]);
           dnewdata.push(school);
 
 
