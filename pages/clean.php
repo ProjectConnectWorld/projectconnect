@@ -321,7 +321,13 @@ function plotcountry(country){
 
     L.geoJSON(geoj, {
       pointToLayer: function(feature, latlng) {
-        return new L.CircleMarker(latlng, {stroke: false, radius: 5, fillOpacity: 0.65, color: getColor(feature.properties.num,feature.properties.range)});
+        if(feature.properties.range){
+          return new L.CircleMarker(latlng, {stroke: false, radius: 20, fillOpacity: 0.65, color: getColor(feature.properties.num,feature.properties.range)});
+
+        }else{
+          return new L.CircleMarker(latlng, {stroke: false, radius: 5, fillOpacity: 0.65, color: getColor(feature.properties.num,feature.properties.range)});
+
+        }
       }
 
     }).bindPopup(function (layer) {
