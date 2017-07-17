@@ -1,5 +1,5 @@
 <?php
-require_once "getcountries.php";
+require "getcountries.php";
 $arr=array();
 
 $region =$_POST['region'];
