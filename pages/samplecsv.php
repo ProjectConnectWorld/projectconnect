@@ -1,4 +1,5 @@
 <?php
+require "../../../db.php";
 
 $file = fopen("../data/mauritania.csv","r");
 $arr= array();

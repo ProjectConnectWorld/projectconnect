@@ -45,27 +45,59 @@
 
 
 </head>
+<script type="text/javascript">
+function regionselected(event){
+  var region =this.options[this.selectedIndex].text;
+  // alert(region);
+  $.ajax({
+    type: "POST",
+    url: 'region.php',
+    data:{'region':region},
+    dataType: "json",
+    success:function(data){
+      document.getElementById('sel2').innerHTML = "<option value='' disabled selected>Select Country</option>"
+      $.each(data, function(){
+        // alert(this.country);
+        var x = document.getElementById("sel2");
+        var option = document.createElement("option");
+        option.text = this.countrycode+"-"+this.countryname;
+        x.add(option);
+      });
+
+
+    }
+
+  });
+}
+
+function countryselected(event){
+  var country =this.options[this.selectedIndex].text;
+  plotcountry(country);
+
+}
+
+</script>
 
 
 <body>
-<!-- <i class="fa fa-arrow-down down-menu"> </i>
-<nav class="navbar navbar-inverse navb">
+  <!-- <i class="fa fa-arrow-down down-menu"> </i>
+  <nav class="navbar navbar-inverse navb">
   <a class="navbar-brand " href="#">Country Info:<i class="fa fa-times pull-right fa-times"> </i></a>
   <div class="collapse navbar-collapse" id="navbarNav">
   <ul class="navbar-nav">
-    <li class="nav-item active">
-      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Features</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Pricing</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled" href="#">Disabled</a>
-    </li>
-  </ul>
+  <li class="nav-item active">
+  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="#">Features</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="#">Pricing</a>
+</li>
+<li class="nav-item">
+<a class="nav-link disabled" href="#">Disabled</a>
+</li>
+</ul>
 </div> -->
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded navb">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,14 +107,13 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav" style="min-width:100%; ">
       <li class="nav-item " style="min-width:20%;">
-        <select class="form-control " id="sel1">
+        <select class="form-control " id="sel1" onchange="regionselected.call(this, event)">
           <option value="" disabled selected>Select your region</option>
+          <option value="">Africa</option>
+          <option value="">Asia</option>
+          <option value="">Europe</option>
           <option value="">North America</option>
           <option value="">South America</option>
-          <option value="">Europe</option>
-          <option value="">Africa</option>
-          <option value="">Middle East</option>
-          <option value="">Asia</option>
           <option value="">Oceania</option>
         </select>
 
@@ -91,11 +122,15 @@
 
       </li>
       <li class="nav-item" style="min-width:20%;">
-        <select class="form-control " id="sel2">
-          <option value="" disabled selected>Select your option</option>
-          <option value="">ONE</option>
-          <option value="">TWO</option>
-          <option value="">THREE</option>
+        <select class="form-control " id="sel2" onchange="countryselected.call(this, event)">
+          <option value="" disabled selected>Select Country</option>
+          <?php
+          // require_once "getcountries.php";
+          // $arr= getAllCountries();
+          // foreach ($arr as $key => $value) {
+          // echo "<option>" .$value."</option>";
+          // }
+          ?>
         </select>
       </li>
       <li class="nav-item" style="padding:10px">
@@ -213,84 +248,52 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 }).addTo(mymap);
 
 
-var tot_points=0;
-var tot_lat=0;
-var tot_lng=0;
-$.ajax({
-  url: 'getdata.php',
-  dataType: "json",
-  success:function(data){
-    var dnewdata= [];
-    $.each(data, function(){
-      if (this.lat != 'null' && this.lng !='null'){
-        tot_points+=1;
-        tot_lat+= parseFloat(this.lat);
-        tot_lng+= parseFloat(this.lng);
+function plotcountry(country){
 
-        var school = new Object();
-        school.name = this.name;
-        school.lat = parseFloat(this.lat);
-        school.lng = parseFloat(this.lng);
-        school.num = parseInt(this.num);
-        dnewdata.push(school);
+  var tot_points=0;
+  var tot_lat=0;
+  var tot_lng=0;
+  $.ajax({
+    type: "POST",
+    url: 'getdata.php',
+    dataType: "json",
+    data:{'country':country},
+    success:function(data){
+      var dnewdata= [];
+      $.each(data, function(){
+        if (this.lat != 'null' && this.lng !='null'){
+          tot_points+=1;
+          tot_lat+= parseFloat(this.lat);
+          tot_lng+= parseFloat(this.lng);
 
-      }
+          var school = new Object();
+          school.name = this.name;
+          school.lat = parseFloat(this.lat);
+          school.lng = parseFloat(this.lng);
+          school.num = parseInt(this.num);
+          dnewdata.push(school);
 
+        }
+
+      });
+      geoj= GeoJSON.parse(dnewdata,{Point: ['lat', 'lng']
     });
-    geoj= GeoJSON.parse(dnewdata,{Point: ['lat', 'lng']
-});
+
     L.geoJSON(geoj, {
       pointToLayer: function(feature, latlng) {
         return new L.CircleMarker(latlng, {stroke: false, radius: 5, fillOpacity: 0.65, color: getColor(feature.properties.num)});
-    }
+      }
 
-}).bindPopup(function (layer) {
+    }).bindPopup(function (layer) {
       return layer.feature.properties.name;
     }).addTo(mymap);
 
 
-    // $.each(data, function(){
-    //   if (this.lat != 'null' && this.lng !='null'){
-    //     tot_points+=1;
-    //     tot_lat+= parseFloat(this.lat);
-    //     tot_lng+= parseFloat(this.lng);
-    //
-    //
-    //     if(this.num_students!='null'){
-    //       var circle = L.circle([this.lat, this.lng], {
-    //         stroke: false,
-    //         fillColor: getColor(this.num),
-    //         fillOpacity: 0.5,
-    //         radius: 2000
-    //         // ,
-    //         // className: getClass()
-    //       }).addTo(mymap);
-    //       if( this.name != 'null'){
-    //         circle.bindPopup(this.name +"</br> Students: " + this.num);
-    //
-    //
-    //
-    //       }
-    //     }
-    //       else{
-    //         circle.bindPopup("NO NAME");
-    //
-    //
-    //       }
-    //
-    //
-    //     }
-    //     circle.on('click', function(e) {
-    //         putIn(e.latlng);
-    //         alert(e.latlng)
-    //     } );
-    //
-    //
-    //
-    // });
     mymap.setView([tot_lat/tot_points, tot_lng/tot_points]);
   }
 });
+
+}
 
 
 

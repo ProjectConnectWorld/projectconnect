@@ -1,14 +1,64 @@
 body {
-  padding-top: 0rem;
+    overflow: hidden;
 }
-.starter-template {
-  padding: 0rem 0rem;
-  text-align: center;
+body {
+  margin:0;
+  padding:0;
+  }
+.navb{
+  z-index: 1000000000000;
+  background-color: rgba(255,255,255,0.8);
+  }
+  .navbar .navbar-brand {
+    color: black;
+  }
+  .navbar .navbar-brand:hover {
+    color: black;
+  }
+
+body * {
+   -webkit-touch-callout: none;
+     -webkit-user-select: none;
+        -moz-user-select: none;
+         -ms-user-select: none;
+             user-select: none;
 }
 
-#mapid {
-   margin: auto;
-   width: 100%;
-   height: 120vh;
-   /*width: 100%;*/
- }
+.left-side{
+  margin-top:1%;
+  position: absolute;
+  width: 15%;
+  height: 85vh;
+  background-color: rgba(255,255,255,0.8);
+  z-index: 100000;
+
+}
+.right-side{
+  left:85%;
+  margin-top:1%;
+  position: absolute;
+  width: 15%;
+  height: 85vh;
+  background-color: rgba(255,255,255,0.8);
+  z-index: 100000;
+
+}
+.down-menu{
+  left:49%;
+  z-index: 1000000000000;
+  padding: 15px 15px 15px 15px;
+  position: fixed;
+  color: black;
+  cursor: pointer;
+  font-size: 15em;
+  background-color: rgba(255,255,255,0.8);
+  display:inline-block;
+  opacity: 0;
+
+}
+.fa-times{
+  padding: 5px 5px 5px 5px;
+  display:inline-block;
+  cursor: pointer;
+
+}
