@@ -1,6 +1,7 @@
 <?php
 
 function getAllCountries(){
+  echo "works";
   require "../../../db.php";
   $arr= array();
   $query = "SELECT DISTINCT(country_code) FROM schools ";
