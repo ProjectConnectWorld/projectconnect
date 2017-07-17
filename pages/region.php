@@ -1,5 +1,5 @@
 <?php
-require "getcountries.php";
+require_once "getcountries.php";
 $arr=array();
 
 // echo "works";
