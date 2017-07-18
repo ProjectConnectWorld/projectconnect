@@ -68,6 +68,7 @@ function regionselected(event){
         x.add(option);
 
       });
+      removecountry();
       highlight(region);
 
     }
