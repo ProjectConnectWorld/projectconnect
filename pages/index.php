@@ -320,7 +320,7 @@ function plotcountry(country){
 
     //alert(tot_lat + "   " + tot_lng +"  "+ tot_points);
     //alert( tot_lat/tot_points+ "  " +tot_lng/tot_points)
-    mymap.setView([tot_lat/tot_points, tot_lng/tot_points]);
+    mymap.setView([tot_lat/tot_points, tot_lng/tot_points],6);
   }
 });
 
