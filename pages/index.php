@@ -70,7 +70,6 @@ function regionselected(event){
       });
       highlight(region);
 
-
     }
 
   });
@@ -79,6 +78,7 @@ function regionselected(event){
 function countryselected(event){
   var country =this.options[this.selectedIndex].text;
   plotcountry(country);
+  removecountry();
 
 }
 
@@ -253,10 +253,10 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   id: 'mapbox.dark',
   accessToken: 'pk.eyJ1IjoiYXlhbmV6IiwiYSI6ImNqNHloOXAweTFveWwzM3A4M3FkOWUzM2UifQ.GfClkT4QxlFDC_xiI37x3Q'
 }).addTo(mymap);
-
+var countryLayer = L.geoJson();
 function highlight(region){
   name=region.replace(/\s/g,'').toLowerCase();
-  L.geoJson(contdata,{
+  countryLayer=L.geoJson(contdata,{
     filter: function (geoJsonFeature) {
       if(geoJsonFeature.properties.continent===name){
         return true;
@@ -269,6 +269,8 @@ function highlight(region){
 }
 
 
+var hasplot=false;
+var geolayer = L.geoJson();
 
 function plotcountry(country){
   var tot_points=0;
@@ -280,6 +282,7 @@ function plotcountry(country){
     dataType: "json",
     data:{'country':country},
     success:function(data){
+      removegeo();
       var dnewdata= [];
 
       $.each(data, function(){
@@ -304,15 +307,16 @@ function plotcountry(country){
       });
       geoj= GeoJSON.parse(dnewdata,{Point: ['lat', 'lng']
     });
-
-    L.geoJSON(geoj, {
+    mymap.removeLayer(geolayer);
+    geolayer = L.geoJSON(geoj, {
       pointToLayer: function(feature, latlng) {
         return new L.CircleMarker(latlng, {stroke: false, radius: 5, fillOpacity: 0.65, color: getColor(feature.properties.num,feature.properties.range)});
       }
-
     }).bindPopup(function (layer) {
       return layer.feature.properties.name;
-    }).addTo(mymap);
+    });
+
+    mymap.addLayer(geolayer);
 
     //alert(tot_lat + "   " + tot_lng +"  "+ tot_points);
     //alert( tot_lat/tot_points+ "  " +tot_lng/tot_points)
@@ -320,21 +324,25 @@ function plotcountry(country){
   }
 });
 
+
 }
 
 function between(x, min, max) {
   return x >= min && x <= max;
 }
+function removegeo(){
+  if(mymap.hasLayer(geolayer)){
+    mymap.removeLayer(geolayer);
 
+  }
+}
 
+function removecountry(){
+  if(mymap.hasLayer(countryLayer)){
+    mymap.removeLayer(countryLayer);
 
-
-
-
-
-
-
-
+  }
+}
 
 
 </script>
