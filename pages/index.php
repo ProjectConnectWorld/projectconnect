@@ -73,6 +73,8 @@ function regionselected(event){
 
       });
       removecontinent();
+      removecountry();
+      removegeo();
       highlight(region);
 
     }
@@ -91,25 +93,7 @@ function countryselected(event){
 
 
 <body>
-  <!-- <i class="fa fa-arrow-down down-menu"> </i>
-  <nav class="navbar navbar-inverse navb">
-  <a class="navbar-brand " href="#">Country Info:<i class="fa fa-times pull-right fa-times"> </i></a>
-  <div class="collapse navbar-collapse" id="navbarNav">
-  <ul class="navbar-nav">
-  <li class="nav-item active">
-  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="#">Features</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="#">Pricing</a>
-</li>
-<li class="nav-item">
-<a class="nav-link disabled" href="#">Disabled</a>
-</li>
-</ul>
-</div> -->
+<!-- <i class="fa fa-arrow-down down-menu"> </i> -->
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded navb">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
