@@ -32,6 +32,7 @@
   <script src="https://use.fontawesome.com/5b36c1571c.js"></script>
   <script type="text/javascript" src ="../data/contgeo.js"></script>
   <script type="text/javascript" src ="../data/centercont.js"></script>
+  <script type="text/javascript" src ="../data/countrygeo.js"></script>
 
 
 
@@ -69,7 +70,7 @@ function regionselected(event){
         x.add(option);
 
       });
-      removecountry();
+      removecontinent();
       highlight(region);
 
     }
@@ -80,7 +81,7 @@ function regionselected(event){
 function countryselected(event){
   var country =this.options[this.selectedIndex].text;
   plotcountry(country);
-  removecountry();
+  removecontinent();
 
 }
 
@@ -179,6 +180,7 @@ function countryselected(event){
 
 
 
+
 <script type="text/javascript">
 
 
@@ -270,11 +272,11 @@ control= L.control.layers(baseLayers,null,{
   position: 'bottomright'
 }).addTo(mymap);
 
-var countryLayer = L.geoJson();
+var continentLayer = L.geoJson();
 
 function highlight(region){
   name=region.replace(/\s/g,'').toLowerCase();
-  countryLayer=L.geoJson(contdata,{
+  continentLayer=L.geoJson(contdata,{
     filter: function (geoJsonFeature) {
       if(geoJsonFeature.properties.continent===name){
         return true;
@@ -286,7 +288,6 @@ function highlight(region){
       return {fillColor:"green",color:"green"}
 }
   }).addTo(mymap);
-  centerconts[name]
   mymap.setView(centerconts[name],3);
 
 }
@@ -298,6 +299,18 @@ function plotcountry(country){
   var tot_points=0;
   var tot_lat=0;
   var tot_lng=0;
+  countryLayer=L.geoJson(countrygeo,{
+    filter: function (geoJsonFeature) {
+      if(geoJsonFeature.properties.name.replace(/\s/g,'').toLowerCase()==country.replace(/\s/g,'').split('-')[1].toLowerCase()){
+        return true;
+      }else{
+        return false;
+      }
+    },
+    style:function (geoJsonFeature) {
+      return {fillColor:"pink",color:"pink"}
+}
+  }).addTo(mymap);
   $.ajax({
     type: "POST",
     url: 'getdata.php',
@@ -327,6 +340,7 @@ function plotcountry(country){
       geoj= GeoJSON.parse(dnewdata,{Point: ['lat', 'lng']
     });
     mymap.removeLayer(geolayer);
+
     geolayer = L.geoJSON(geoj, {
       pointToLayer: function(feature, latlng) {
         return new L.CircleMarker(latlng, {stroke: false, radius: 3, fillOpacity: 0.65, color: getColor(feature.properties.num,feature.properties.range)});
@@ -344,6 +358,9 @@ function plotcountry(country){
 });
 
 
+
+
+
 }
 
 function between(x, min, max) {
@@ -356,9 +373,9 @@ function removegeo(){
   }
 }
 
-function removecountry(){
-  if(mymap.hasLayer(countryLayer)){
-    mymap.removeLayer(countryLayer);
+function removecontinent(){
+  if(mymap.hasLayer(continentLayer)){
+    mymap.removeLayer(continentLayer);
 
   }
 }
