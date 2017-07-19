@@ -33,6 +33,8 @@
   <script type="text/javascript" src ="../data/contgeo.js"></script>
   <script type="text/javascript" src ="../data/centercont.js"></script>
   <script type="text/javascript" src ="../data/countrygeo.js"></script>
+  <script type="text/javascript" src ="../data/allcountries.js"></script>
+
 
 
 
@@ -299,7 +301,7 @@ function plotcountry(country){
   var tot_points=0;
   var tot_lat=0;
   var tot_lng=0;
-  countryLayer=L.geoJson(countrygeo,{
+  countryLayer=L.geoJson(allcountries,{
     filter: function (geoJsonFeature) {
       if(geoJsonFeature.properties.name.replace(/\s/g,'').toLowerCase()==country.replace(/\s/g,'').split('-')[1].toLowerCase()){
         return true;
