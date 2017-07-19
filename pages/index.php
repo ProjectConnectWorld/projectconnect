@@ -312,7 +312,7 @@ function plotcountry(country){
       }
     },
     style:function (geoJsonFeature) {
-      return {fillColor:"pink",color:"pink"}
+      return {fillColor:"red",color:"red"}
 }
   }).addTo(mymap);
   $.ajax({
