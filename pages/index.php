@@ -296,11 +296,13 @@ function highlight(region){
 
 
 var geolayer = L.geoJson();
+var countryLayer = L.geoJson();
 
 function plotcountry(country){
   var tot_points=0;
   var tot_lat=0;
   var tot_lng=0;
+  removecountry();
   countryLayer=L.geoJson(allcountries,{
     filter: function (geoJsonFeature) {
       if(geoJsonFeature.properties.name.replace(/\s/g,'').toLowerCase()==country.replace(/\s/g,'').split('-')[1].toLowerCase()){
@@ -320,7 +322,7 @@ function plotcountry(country){
     data:{'country':country},
     success:function(data){
       removegeo();
-      removecountry();
+
       var dnewdata= [];
 
       $.each(data, function(){
