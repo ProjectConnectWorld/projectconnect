@@ -320,6 +320,7 @@ function plotcountry(country){
     data:{'country':country},
     success:function(data){
       removegeo();
+      removecountry();
       var dnewdata= [];
 
       $.each(data, function(){
@@ -374,6 +375,14 @@ function removegeo(){
 
   }
 }
+function removecountry(){
+  if(mymap.hasLayer(countryLayer)){
+    mymap.removeLayer(countryLayer);
+
+  }
+}
+
+
 
 function removecontinent(){
   if(mymap.hasLayer(continentLayer)){
