@@ -31,6 +31,7 @@
   <!-- Font Awesome -->
   <script src="https://use.fontawesome.com/5b36c1571c.js"></script>
   <script type="text/javascript" src ="../data/contgeo.js"></script>
+  <script type="text/javascript" src ="../data/centercont.js"></script>
 
 
 
@@ -159,7 +160,6 @@ function countryselected(event){
 </nav>
 
 
-</nav>
 
 <!-- <div class="left-side"></div> -->
 <div class="map" id="mapid"></div>
@@ -180,10 +180,7 @@ function countryselected(event){
 
 
 <script type="text/javascript">
-//When the Window finishes loading...
-function putIn(latlng){
 
-}
 
 function getColor(num){
   var num = parseInt(num);
@@ -239,22 +236,42 @@ function getClass(){
 
 }
 
-
-
 var mymap = L.map('mapid',{
   zoomControl:false
 }).setView([0, 0], 4);
-// var control= L.control.setPosition('bottomleft');
+
+
 L.control.zoom({
   position: 'bottomleft'
 }).addTo(mymap);
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+
+var streetlayer= L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+  maxZoom: 20,
+  id: 'mapbox.streets',
+  accessToken: 'pk.eyJ1IjoiYXlhbmV6IiwiYSI6ImNqNHloOXAweTFveWwzM3A4M3FkOWUzM2UifQ.GfClkT4QxlFDC_xiI37x3Q'
+});
+
+var darklayer= L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
   attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
   maxZoom: 20,
   id: 'mapbox.dark',
   accessToken: 'pk.eyJ1IjoiYXlhbmV6IiwiYSI6ImNqNHloOXAweTFveWwzM3A4M3FkOWUzM2UifQ.GfClkT4QxlFDC_xiI37x3Q'
+});
+
+darklayer.addTo(mymap);
+
+var baseLayers = {
+  "Dark Layer": darklayer,
+  "Street Layer": streetlayer
+};
+
+control= L.control.layers(baseLayers,null,{
+  position: 'bottomright'
 }).addTo(mymap);
+
 var countryLayer = L.geoJson();
+
 function highlight(region){
   name=region.replace(/\s/g,'').toLowerCase();
   countryLayer=L.geoJson(contdata,{
@@ -264,13 +281,17 @@ function highlight(region){
       }else{
         return false;
       }
-    }
+    },
+    style:function (geoJsonFeature) {
+      return {fillColor:"green",color:"green"}
+}
   }).addTo(mymap);
+  centerconts[name]
+  mymap.setView(centerconts[name],3);
 
 }
 
 
-var hasplot=false;
 var geolayer = L.geoJson();
 
 function plotcountry(country){
@@ -301,17 +322,14 @@ function plotcountry(country){
           school.lng = parseFloat(this.lng);
           school.num = parseInt(this.num);
           dnewdata.push(school);
-
-
         }
-
       });
       geoj= GeoJSON.parse(dnewdata,{Point: ['lat', 'lng']
     });
     mymap.removeLayer(geolayer);
     geolayer = L.geoJSON(geoj, {
       pointToLayer: function(feature, latlng) {
-        return new L.CircleMarker(latlng, {stroke: false, radius: 5, fillOpacity: 0.65, color: getColor(feature.properties.num,feature.properties.range)});
+        return new L.CircleMarker(latlng, {stroke: false, radius: 3, fillOpacity: 0.65, color: getColor(feature.properties.num,feature.properties.range)});
       }
     }).bindPopup(function (layer) {
       return layer.feature.properties.name;
