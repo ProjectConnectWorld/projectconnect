@@ -1,43 +1,52 @@
 body {
-    overflow: hidden;
+  overflow: hidden;
 }
 body {
   margin:0;
   padding:0;
-  }
+}
+#ex1Slider .slider-selection {
+	background: #BABABA;
+}
+.movedown{
+  margin-top:50px;
+}
 .navb{
   z-index: 1000000000000;
   background-color: rgba(255,255,255,0.8);
-  }
-  .navbar .navbar-brand {
-    color: black;
-  }
-  .navbar .navbar-brand:hover {
-    color: black;
-  }
+}
+.navbar .navbar-brand {
+  color: black;
+}
+.navbar .navbar-brand:hover {
+  color: black;
+}
+.slider1{
+  z-index: 100000000000000000000000000;
+}
 
 body * {
-   -webkit-touch-callout: none;
-     -webkit-user-select: none;
-        -moz-user-select: none;
-         -ms-user-select: none;
-             user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .left-side{
   margin-top:1%;
   position: absolute;
-  width: 15%;
+  width: 20%;
   height: 85vh;
   background-color: rgba(255,255,255,0.8);
   z-index: 100000;
 
 }
 .right-side{
-  left:85%;
+  left:80%;
   margin-top:1%;
   position: absolute;
-  width: 15%;
+  width: 20%;
   height: 85vh;
   background-color: rgba(255,255,255,0.8);
   z-index: 100000;
@@ -54,6 +63,7 @@ body * {
   background-color: rgba(255,255,255,0.8);
   display:inline-block;
   opacity: 0;
+  transition: transform .5s;
 
 }
 .fa-times{
@@ -61,4 +71,48 @@ body * {
   display:inline-block;
   cursor: pointer;
 
+}
+.hide_left{
+  margin-left: -20%;
+}
+
+.hide_right{
+  margin-left: 20%;
+}
+.hide_nav{
+  transform: translateY(-100%);
+}
+
+.togglel{
+  position:fixed;
+  margin-top: 40vh;
+  z-index: 100000000000000;
+  padding: 15px 15px 15px 15px;
+  color: black;
+  cursor: pointer;
+  font-size: 2em;
+  background-color: rgba(255,255,255,0.8);
+  opacity: 0;
+  transition: transform .5s;
+
+}
+.toggler{
+  position:fixed;
+
+  left: -webkit-calc(100% - 45px);
+  left:    -moz-calc(100% - 45px);
+  left:         calc(100% - 45px);
+  margin-top: 40vh;
+  z-index: 100000000000000;
+  padding: 15px 15px 15px 15px;
+  color: black;
+  cursor: pointer;
+  font-size: 2em;
+  background-color: rgba(255,255,255,0.8);
+  opacity: 0;
+  transition: transform .5s;
+
+}
+.opacity1{
+  opacity: 1;
 }
