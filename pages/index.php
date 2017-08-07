@@ -13,12 +13,18 @@
   <!-- Bootstrap core CSS -->
   <link href="../bootstrap4/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  <link href= "../node_modules/leaflet.markercluster/dist/MarkerCluster.css" rel="stylesheet">
+  <!-- <link href= "../node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css" rel="stylesheet"> -->
+
   <!-- Custom styles for this template -->
   <link href="../css/starter-template.css" rel="stylesheet">
   <!-- Leaflet css -->
   <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css"/>
   <!-- leaflet js file -->
   <script src= "../node_modules/leaflet/dist/leaflet.js"></script>
+
+
+  <script src= "../node_modules/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
   <!-- mapbox file -->
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
@@ -76,6 +82,7 @@ function regionselected(event){
       });
       removecontinent();
       removecountry();
+      removem();
       removegeo();
       highlight(region);
 
@@ -86,6 +93,7 @@ function regionselected(event){
 
 function countryselected(event){
   var country =this.options[this.selectedIndex].text;
+  //removem();
   plotcountry(country);
   removecontinent();
 
@@ -161,217 +169,254 @@ function countryselected(event){
         <input id="ex2" type="text" class="span2" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]"/>
       </div>
 
-      </div>
     </div>
+  </div>
 
-    <div class="map" id="mapid"></div>
-    <div class="right-side">
-      <i class="fa fa-times pull-right fa-times pull-left fa-funcr"> </i>
-    </div>
+  <div class="map" id="mapid"></div>
+  <div class="right-side">
+    <i class="fa fa-times pull-right fa-times pull-left fa-funcr"> </i>
+  </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="../bootstrap4/dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../bootstrap4/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script type="text/javascript" src="../node_modules/geojson/geojson.min.js"></script>
-    <script type="text/javascript" src ="../js/close.js"></script>
-    <script type="text/javascript" src ="../js/bootstrap-slider.js"></script>
-
-
-
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="../bootstrap4/dist/js/bootstrap.min.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="../bootstrap4/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
+  <script type="text/javascript" src="../node_modules/geojson/geojson.min.js"></script>
+  <script type="text/javascript" src ="../js/close.js"></script>
+  <script type="text/javascript" src ="../js/bootstrap-slider.js"></script>
 
 
-    <script type="text/javascript">
 
 
-    function getColor(num){
-      var num = parseInt(num);
 
-      if( num <50){
-        return "#14D812"
-      }
-      if( num < 150){
-        return "#70D10D"
-      }
-      if( num < 400){
-        return "#CACB08"
-      }
-      if( num < 800){
-        return "#C56604"
-      }
-      else{
-        return "#BF0100"
-      }
+  <script type="text/javascript">
 
+
+  function getColor(num){
+    var num = parseInt(num);
+
+    if( num <50){
+      return "#14D812"
     }
-    function getClass(){
-      var ran= Math.floor(Math.random() * 9);
-      if(ran<1){
-        return "pulse1";
-      }
-      if(ran<2){
-        return "pulse2";
-
-      }
-      if(ran<3){
-        return "pulse3";
-
-      }
-      if(ran<4){
-        return "pulse3";
-
-      }
-      if(ran<5){
-        return "pulse3";
-
-      }
-      if(ran<6){
-        return "pulse3";
-
-      }
-      if(ran<7){
-        return "pulse3";
-      }
-      else{
-        return "pulse4";
-      }
-
+    if( num < 150){
+      return "#70D10D"
+    }
+    if( num < 400){
+      return "#CACB08"
+    }
+    if( num < 800){
+      return "#C56604"
+    }
+    else{
+      return "#BF0100"
     }
 
-    var mymap = L.map('mapid',{
-      zoomControl:false
-    }).setView([0, 0], 4);
+  }
+  function getClass(){
+    var ran= Math.floor(Math.random() * 9);
+    if(ran<1){
+      return "pulse1";
+    }
+    if(ran<2){
+      return "pulse2";
+
+    }
+    if(ran<3){
+      return "pulse3";
+
+    }
+    if(ran<4){
+      return "pulse3";
+
+    }
+    if(ran<5){
+      return "pulse3";
+
+    }
+    if(ran<6){
+      return "pulse3";
+
+    }
+    if(ran<7){
+      return "pulse3";
+    }
+    else{
+      return "pulse4";
+    }
+
+  }
+
+  var mymap = L.map('mapid',{
+    zoomControl:false
+  }).setView([0, 0], 4);
 
 
-    L.control.zoom({
-      position: 'bottomleft'
+  L.control.zoom({
+    position: 'bottomleft'
+  }).addTo(mymap);
+
+  var streetlayer= L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 20,
+    minZoom:3,
+    id: 'mapbox.streets',
+    accessToken: 'pk.eyJ1IjoiYXlhbmV6IiwiYSI6ImNqNHloOXAweTFveWwzM3A4M3FkOWUzM2UifQ.GfClkT4QxlFDC_xiI37x3Q'
+  });
+
+  var darklayer= L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 20,
+    minZoom:3,
+    id: 'mapbox.dark',
+    accessToken: 'pk.eyJ1IjoiYXlhbmV6IiwiYSI6ImNqNHloOXAweTFveWwzM3A4M3FkOWUzM2UifQ.GfClkT4QxlFDC_xiI37x3Q'
+  });
+
+  var satillitelayer= L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 20,
+    minZoom:3,
+    id: 'mapbox.satellite',
+    accessToken: 'pk.eyJ1IjoiYXlhbmV6IiwiYSI6ImNqNHloOXAweTFveWwzM3A4M3FkOWUzM2UifQ.GfClkT4QxlFDC_xiI37x3Q'
+  });
+
+  darklayer.addTo(mymap);
+
+  var baseLayers = {
+    "Dark Layer": darklayer,
+    "Street Layer": streetlayer,
+    "Satellite Layer": satillitelayer
+  };
+
+  control= L.control.layers(baseLayers,null,{
+    position: 'bottomright'
+  }).addTo(mymap);
+
+  var continentLayer = L.geoJson();
+
+  function highlight(region){
+    name=region.replace(/\s/g,'').toLowerCase();
+    continentLayer=L.geoJson(contdata,{
+      filter: function (geoJsonFeature) {
+        if(geoJsonFeature.properties.continent===name){
+          return true;
+        }else{
+          return false;
+        }
+      },
+      style:function (geoJsonFeature) {
+        return {fillColor:"green",color:"green"}
+      }
+    }).bindPopup(function (layer) {
+      return layer.feature.properties.name;
+    }).addTo(mymap);
+    mymap.setView(centerconts[name],3);
+
+  }
+
+
+  var geolayer = L.geoJson();
+  var countryLayer = L.geoJson();
+  // var cmarkers = L.markerClusterGroup();
+  var cmarkers = L.markerClusterGroup({
+    chunkedLoading: true,
+    iconCreateFunction: function(cluster) {
+      // var arr = cluster.getAllChildMarkers();
+      // var arrlen = cluster.getChildCount();
+      // console.log(arr[0]);
+      return L.divIcon({
+        html: '<b>' + cluster.getChildCount() + '</b>',
+        className: 'my-div-icon',
+        iconSize: L.point(60, 40)
+      });
+    }
+  });
+
+
+  function plotcountry(country){
+    var tot_points=0;
+    var tot_lat=0;
+    var tot_lng=0;
+    removecountry();
+    //removegeo();
+    removem();
+    countryLayer=L.geoJson(allcountries,{
+      filter: function (geoJsonFeature) {
+        if(geoJsonFeature.properties.name.replace(/\s/g,'').toLowerCase()==country.replace(/\s/g,'').split('-')[1].toLowerCase()){
+          return true;
+        }else{
+          return false;
+        }
+      },
+      style:function (geoJsonFeature) {
+        return {fill:false ,color:"red"}
+      }
     }).addTo(mymap);
 
-    var streetlayer= L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-      maxZoom: 20,
-      minZoom:3,
-      id: 'mapbox.streets',
-      accessToken: 'pk.eyJ1IjoiYXlhbmV6IiwiYSI6ImNqNHloOXAweTFveWwzM3A4M3FkOWUzM2UifQ.GfClkT4QxlFDC_xiI37x3Q'
-    });
+    $.ajax({
+      type: "POST",
+      url: 'getdata.php',
+      dataType: "json",
+      data:{'country':country},
+      success:function(data){
+        //removegeo();
+        //removem();
+        cmarkers.clearLayers();
+        var dnewdata= [];
 
-    var darklayer= L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-      maxZoom: 20,
-      minZoom:3,
-      id: 'mapbox.dark',
-      accessToken: 'pk.eyJ1IjoiYXlhbmV6IiwiYSI6ImNqNHloOXAweTFveWwzM3A4M3FkOWUzM2UifQ.GfClkT4QxlFDC_xiI37x3Q'
-    });
+        $.each(data, function(){
+          p_lat= parseFloat(this.lat);
+          p_lng= parseFloat(this.lng);
 
-    var satillitelayer= L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-      maxZoom: 20,
-      minZoom:3,
-      id: 'mapbox.satellite',
-      accessToken: 'pk.eyJ1IjoiYXlhbmV6IiwiYSI6ImNqNHloOXAweTFveWwzM3A4M3FkOWUzM2UifQ.GfClkT4QxlFDC_xiI37x3Q'
-    });
+          if (this.lat != 'null' && this.lng !='null' && !isNaN(p_lat) && !isNaN(p_lng) && between(p_lat, -90, 90) && between(p_lng, -180, 180)){
+            tot_points+=1;
+            tot_lat+= parseFloat(this.lat);
+            tot_lng+= parseFloat(this.lng);
 
-    darklayer.addTo(mymap);
+            var school = new Object();
+            school.name = this.name;
+            school.lat = parseFloat(this.lat);
+            school.lng = parseFloat(this.lng);
+            school.num = parseInt(this.num);
+            dnewdata.push(school);
+            // cmarkers.addLayer(
+            // L.marker([this.lat,this.lng]));
+            // L.circleMarker([this.lat,this.lng], {
+            //   stroke: false,
+            //   radius: 15,
+            //   fillOpacity: 0.65,
+            //   color: getColor(this.num)
+            // }).bindPopup(this.name));
 
-    var baseLayers = {
-      "Dark Layer": darklayer,
-      "Street Layer": streetlayer,
-      "Satellite Layer": satillitelayer
-    };
-
-    control= L.control.layers(baseLayers,null,{
-      position: 'bottomright'
-    }).addTo(mymap);
-
-    var continentLayer = L.geoJson();
-
-    function highlight(region){
-      name=region.replace(/\s/g,'').toLowerCase();
-      continentLayer=L.geoJson(contdata,{
-        filter: function (geoJsonFeature) {
-          if(geoJsonFeature.properties.continent===name){
-            return true;
-          }else{
-            return false;
           }
-        },
-        style:function (geoJsonFeature) {
-          return {fillColor:"green",color:"green"}
-        }
-      }).bindPopup(function (layer) {
-        return layer.feature.properties.name;
-      }).addTo(mymap);
-      mymap.setView(centerconts[name],3);
-
-    }
-
-
-    var geolayer = L.geoJson();
-    var countryLayer = L.geoJson();
-
-    function plotcountry(country){
-      var tot_points=0;
-      var tot_lat=0;
-      var tot_lng=0;
-      removecountry();
-      countryLayer=L.geoJson(allcountries,{
-        filter: function (geoJsonFeature) {
-          if(geoJsonFeature.properties.name.replace(/\s/g,'').toLowerCase()==country.replace(/\s/g,'').split('-')[1].toLowerCase()){
-            return true;
-          }else{
-            return false;
-          }
-        },
-        style:function (geoJsonFeature) {
-          return {fill:false ,color:"red"}
-        }
-      }).addTo(mymap);
-      $.ajax({
-        type: "POST",
-        url: 'getdata.php',
-        dataType: "json",
-        data:{'country':country},
-        success:function(data){
-          removegeo();
-
-          var dnewdata= [];
-
-          $.each(data, function(){
-            p_lat= parseFloat(this.lat);
-            p_lng= parseFloat(this.lng);
-
-            if (this.lat != 'null' && this.lng !='null' && !isNaN(p_lat) && !isNaN(p_lng) && between(p_lat, -90, 90) && between(p_lng, -180, 180)){
-              tot_points+=1;
-              tot_lat+= parseFloat(this.lat);
-              tot_lng+= parseFloat(this.lng);
-
-              var school = new Object();
-              school.name = this.name;
-              school.lat = parseFloat(this.lat);
-              school.lng = parseFloat(this.lng);
-              school.num = parseInt(this.num);
-              dnewdata.push(school);
-            }
-          });
-          geoj= GeoJSON.parse(dnewdata,{Point: ['lat', 'lng']
         });
+        function onEachFeature(feature, layer) {
+          // does this feature have a property named popupContent?
+          if (feature.properties && feature.properties.name) {
+            layer.bindPopup(feature.properties.name);
+          }
+        }
+        geoj= GeoJSON.parse(dnewdata,{Point: ['lat', 'lng']});
         mymap.removeLayer(geolayer);
+        mymap.removeLayer(cmarkers);
 
         geolayer = L.geoJSON(geoj, {
           pointToLayer: function(feature, latlng) {
-            return new L.CircleMarker(latlng, {stroke: false, radius: 3, fillOpacity: 0.65, color: getColor(feature.properties.num,feature.properties.range)});
-          }
-        }).bindPopup(function (layer) {
-          return layer.feature.properties.name;
+            return new L.CircleMarker(latlng, {stroke: false, radius: 10, fillOpacity: 0.65, color: getColor(feature.properties.num)});
+          },
+          onEachFeature: onEachFeature
+
+
         });
 
-        mymap.addLayer(geolayer);
+        cmarkers.addLayer(geolayer);
+        //mymap.addLayer(geolayer);
+        mymap.addLayer(cmarkers);
 
         //alert(tot_lat + "   " + tot_lng +"  "+ tot_points);
         //alert( tot_lat/tot_points+ "  " +tot_lng/tot_points)
@@ -392,6 +437,11 @@ function countryselected(event){
     if(mymap.hasLayer(geolayer)){
       mymap.removeLayer(geolayer);
 
+    }
+  }
+  function removem(){
+    if(mymap.hasLayer(cmarkers)){
+      mymap.removeLayer(cmarkers);
     }
   }
   function removecountry(){

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(2),u=e(3),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}finally{f.emit("fn-end",[c.now()],t)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now()])}},{}],2:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],3:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],4:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=m(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){v[e]=m(e).concat(n)}function m(e){return v[e]||[]}function w(e){return p[e]=p[e]||o(t)}function g(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var v={},y={},b={on:l,emit:t,get:w,listeners:m,context:n,buffer:g,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(2),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!x++){var e=h.info=NREUM.info,n=d.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+h.offset],null,"api");var t=d.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===d.readyState&&i()}function i(){f("mark",["domContent",a()+h.offset],null,"api")}function a(){return E.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-h.offset}var u=(new Date).getTime(),f=e("handle"),c=e(2),s=e("ee"),p=window,d=p.document,l="addEventListener",m="attachEvent",w=p.XMLHttpRequest,g=w&&w.prototype;NREUM.o={ST:setTimeout,SI:p.setImmediate,CT:clearTimeout,XHR:w,REQ:p.Request,EV:p.Event,PR:p.Promise,MO:p.MutationObserver};var v=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1044.min.js"},b=w&&g&&g[l]&&!/CriOS/.test(navigator.userAgent),h=n.exports={offset:u,now:a,origin:v,features:{},xhrWrappable:b};e(1),d[l]?(d[l]("DOMContentLoaded",i,!1),p[l]("load",r,!1)):(d[m]("onreadystatechange",o),p[m]("onload",r)),f("mark",["firstbyte",u],null,"api");var x=0,E=e(4)},{}]},{},["loader"]);</script><script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","queueTime":0,"licenseKey":"e47e4f98d6","agent":"","transactionName":"bgNRZhdZXEtTUBcPXVdJdUcLW0ZRXV1MCVxYAlJGBBZTSEJATQdCUEhFWwBPQV1GQE0FWlgUR0E6TltdRUAGEgh6DlJAEUtkUVdEMANGFwpaQRE=","applicationID":"44184677","errorBeacon":"bam.nr-data.net","applicationTime":182}</script>
+      <meta name="robots" content="NONE,NOARCHIVE" />
+
+
+    <title>
+KoBoCAT REST API
+</title>
+
+
+
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css" rel="stylesheet">
+        <!--[if lte IE 8]>
+          <link href="//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome-ie7.css" rel="stylesheet">
+        <![endif]-->
+        <style type="text/css">
+        .header-bar__top-logo {
+            display: inline-block;
+            background: url("/static/images/kobologo.svg");
+            background-size: 120px 27px;
+            background-repeat: none;
+            width: 120px;
+            height: 27px;
+            margin-top: 5px;
+            margin-right: 6px;
+        }
+        </style>
+        <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+
+
+
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css" rel="stylesheet">
+        <!--[if lte IE 8]>
+          <link href="//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome-ie7.css" rel="stylesheet">
+        <![endif]-->
+        <style type="text/css">
+        .header-bar__top-logo {
+            display: inline-block;
+            background: url("/static/images/kobologo.svg");
+            background-size: 120px 27px;
+            background-repeat: none;
+            width: 120px;
+            height: 27px;
+            margin-top: 5px;
+            margin-right: 6px;
+        }
+        </style>
+        <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+
+      <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/prettify.css"/>
+      <link rel="stylesheet" type="text/css" href="/static/rest_framework/css/default.css"/>
+
+    <link href="/static/css/screen.css" rel="stylesheet">
+
+
+
+</head>
+
+
+<body class="">
+
+  <div class="wrapper">
+
+      <div class="navbar navbar-static-top navbar-inverse">
+        <div class="container">
+          <span>
+
+    <span class="header-bar__top-logo"></span>
+
+          </span>
+          <ul class="nav navbar-nav pull-right">
+
+
+                <li class="navbar-text">ayanez</li>
+
+
+          </ul>
+        </div>
+      </div>
+
+
+    <div class="container">
+
+        <ul class="breadcrumb">
+
+
+              <li><a href="/api/v1/">KoBo Api</a></li>
+
+
+
+              <li class="active"><a href="/api/v1/charts">Charts List</a></li>
+
+
+        </ul>
+
+
+      <!-- Content -->
+      <div id="content">
+
+
+          <form id="get-form" class="pull-right">
+            <fieldset>
+
+                <div class="btn-group format-selection">
+                  <a class="btn btn-primary js-tooltip" href="/api/v1/charts" rel="nofollow" title="Make a GET request on the Charts List resource">GET</a>
+
+                  <button class="btn btn-primary dropdown-toggle js-tooltip" data-toggle="dropdown" title="Specify a format for the GET request">
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+
+                      <li>
+                        <a class="js-tooltip format-option" href="/api/v1/charts?format=api" rel="nofollow" title="Make a GET request on the Charts List resource with the format set to `api`">api</a>
+                      </li>
+
+                      <li>
+                        <a class="js-tooltip format-option" href="/api/v1/charts?format=json" rel="nofollow" title="Make a GET request on the Charts List resource with the format set to `json`">json</a>
+                      </li>
+
+                      <li>
+                        <a class="js-tooltip format-option" href="/api/v1/charts?format=html" rel="nofollow" title="Make a GET request on the Charts List resource with the format set to `html`">html</a>
+                      </li>
+
+                  </ul>
+                </div>
+
+            </fieldset>
+          </form>
+
+
+
+          <form class="button-form" action="/api/v1/charts" data-method="OPTIONS">
+            <button class="btn btn-primary js-tooltip" title="Make an OPTIONS request on the Charts List resource">OPTIONS</button>
+          </form>
+
+
+
+
+
+
+          <div class="content-main">
+            <div class="page-header">
+                <h1>Charts List</h1>
+            </div>
+            <div style="float:left">
+
+                <p>View chart for specific fields in a form or dataset.</p>
+<h4 id="list-of-chart-chart-endpoints-accessible-to-registered-user">List of chart chart endpoints accessible to registered user</h4>
+<p><pre class="prettyprint">
+<b>GET</b> /api/v1/charts</pre></p>
+<blockquote>
+<p>Example</p>
+<pre><code>  curl -X GET https://kc.humanitarianresponse.info/api/v1/charts
+</code></pre>
+<p>Response</p>
+<pre><code>   [{
+
+       "id": 4240,
+       "id_string": "dhis2form"
+       "url": "https://kc.humanitarianresponse.info/api/v1/charts/4240",
+   }
+   ...
+</code></pre>
+</blockquote>
+<h4 id="get-a-list-of-chart-field-endpoints-for-a-specific-form-or-dataset">Get a list of chart field endpoints for a specific form or dataset.</h4>
+<pre class="prettyprint">
+<b>GET</b> /api/v1/charts/<code>{formid}</code></pre>
+
+<blockquote>
+<p>Example</p>
+<pre><code>  curl -X GET https://kc.humanitarianresponse.info/api/v1/charts/4240
+</code></pre>
+<p>Response</p>
+<pre><code>   {
+
+       "id": 4240,
+       "id_string": "dhis2form"
+       "url": "https://kc.humanitarianresponse.info/api/v1/charts/4240",
+       "fields": {
+           "uuid": "https://kc.humanitarianresponse.info/api/v1/charts/4240?field_name=uuid",
+           "num": "https://kc.humanitarianresponse.info/api/v1/charts/4240?field_name=num",
+           ...
+       }
+   }
+</code></pre>
+</blockquote>
+<h4 id="get-a-chart-for-a-specific-field-in-a-form">Get a chart for a specific field in a form</h4>
+<ul>
+<li><code>field_name</code> - a field name in the form</li>
+<li><code>format</code> - can be <code>html</code> or <code>json</code></li>
+</ul>
+<pre class="prettyprint">
+<b>GET</b> /api/v1/charts/<code>{formid}</code>.<code>{format}</code>?field_name=<code>field_name</code></pre>
+
+<blockquote>
+<p>Example</p>
+<pre><code>  curl -X GET https://kc.humanitarianresponse.info/api/v1/charts/4240.html?field_name=age
+</code></pre>
+<p>Response</p>
+<ul>
+<li><code>html</code> format response is a html, javascript and css to the chart</li>
+<li><code>json</code> format response is the <code>JSON</code> data that can be passed to a charting
+library</li>
+</ul>
+</blockquote>
+<h4 id="get-a-chart-data-for-all-fields-in-a-form">Get a chart data for all fields in a form</h4>
+<p>The only field ommitted is instanceID since it is unique for every record.</p>
+<ul>
+<li><code>fields</code> - is a comma separated list of fields to be included in the response. If <code>fields=all</code> then all the fields of the form will be returned.</li>
+</ul>
+<pre class="prettyprint">
+<b>GET</b> /api/v1/charts/<code>{formid}</code>?<code>fields=all</code>
+</pre>
+
+<blockquote>
+<p>Example</p>
+<pre><code>  curl -X GET https://kc.humanitarianresponse.info/api/v1/charts/4240?fields=all
+</code></pre>
+<p>Response</p>
+<ul>
+<li><code>json</code> format response is the <code>JSON</code> data for each field that can be
+passed to a charting library</li>
+</ul>
+</blockquote>
+
+            </div>
+
+
+
+            <div class="request-info" style="clear: both" >
+              <pre class="prettyprint"><b>GET</b> /api/v1/charts</pre>
+            </div>
+
+            <div class="response-info">
+              <pre class="prettyprint"><span class="meta nocode"><b>HTTP 200 OK</b>
+<b>Allow:</b> <span class="lit">GET, HEAD, OPTIONS</span>
+<b>Content-Type:</b> <span class="lit">application/json</span>
+<b>Vary:</b> <span class="lit">Accept</span>
+
+</span>[
+    {
+        &quot;id&quot;: 151698,
+        &quot;id_string&quot;: &quot;avuyNVGLpCbfh9azmooGow&quot;,
+        &quot;url&quot;: &quot;<a href="https://kc.humanitarianresponse.info/api/v1/charts/151698" rel="nofollow">https://kc.humanitarianresponse.info/api/v1/charts/151698</a>&quot;
+    }
+]</pre>
+            </div>
+          </div>
+
+
+
+
+
+
+
+      </div><!-- /.content -->
+    </div><!-- /.container -->
+  </div><!-- ./wrapper -->
+
+
+
+    <script src="/static/rest_framework/js/jquery-1.11.3.min.js"></script>
+    <script src="/static/rest_framework/js/ajax-form.js"></script>
+    <script src="/static/rest_framework/js/csrf.js"></script>
+    <script src="/static/rest_framework/js/bootstrap.min.js"></script>
+    <script src="/static/rest_framework/js/prettify-min.js"></script>
+    <script src="/static/rest_framework/js/default.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('form').ajaxForm();
+        });
+    </script>
+
+    <style type='text/css'>
+        pre code .pln{color:#d14;}
+        pre code .pun{color:#32af8d;}
+    </style>
+
+
+
+
+</body>
+
+</html>
