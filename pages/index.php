@@ -324,6 +324,8 @@ function countryselected(event){
   var countryLayer = L.geoJson();
   // var cmarkers = L.markerClusterGroup();
   var cmarkers = L.markerClusterGroup({
+    disableClusteringAtZoom: 9,
+    spiderfyOnMaxZoom: false,
     chunkedLoading: true,
     iconCreateFunction: function(cluster) {
       // var arr = cluster.getAllChildMarkers();
